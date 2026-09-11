@@ -1,0 +1,48 @@
+cff-version: 1.2.0
+message: "If you use this workflow, cite BANKSY and this repository."
+title: "BANKSY spatial workflow"
+type: software
+version: 0.1.0
+date-released: "2026-09-09"
+license: GPL-3.0-only
+repository-code: "https://github.com/tomasnoli/banksy-spatial-workflow"
+authors:
+  - family-names: "Noli"
+    given-names: "Tomas"
+references:
+  - type: article
+    title: "BANKSY unifies cell typing and tissue domain segmentation for scalable spatial omics data analysis"
+    authors:
+      - family-names: "Singhal"
+        given-names: "Vipul"
+      - family-names: "Chou"
+        given-names: "Nigel"
+      - family-names: "Lee"
+        given-names: "Joseph"
+      - family-names: "Yue"
+        given-names: "Yifei"
+      - family-names: "Liu"
+        given-names: "Jinyue"
+      - family-names: "Chock"
+        given-names: "Wan Kee"
+      - family-names: "Lin"
+        given-names: "Li"
+      - family-names: "Chang"
+        given-names: "Yun-Ching"
+      - family-names: "Teo"
+        given-names: "Erica Mei Ling"
+      - family-names: "Aow"
+        given-names: "Jonathan"
+      - family-names: "Lee"
+        given-names: "Hwee Kuan"
+      - family-names: "Chen"
+        given-names: "Kok Hao"
+      - family-names: "Prabhakar"
+        given-names: "Shyam"
+    journal: "Nature Genetics"
+    year: 2024
+    volume: 56
+    issue: 3
+    start: 431
+    end: 441
+    doi: "10.1038/s41588-024-01664-3"
