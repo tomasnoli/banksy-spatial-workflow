@@ -1,0 +1,45 @@
+{
+  "scores": {
+    "workflow_vs_upstream_ari": 1.0,
+    "workflow_vs_manual_ari": 0.7196025778303766,
+    "upstream_vs_manual_ari": 0.7196025778303766,
+    "workflow_clusters": 6,
+    "upstream_clusters": 6,
+    "upstream_refined_vs_manual_ari": 0.7254443600258597,
+    "refinement_changed_cells": 11
+  },
+  "shape": [1207, 1020],
+  "parameters": {
+    "lambdas": [0.8],
+    "resolutions": [0.8],
+    "pca_dims": [20],
+    "num_neighbours": 15,
+    "num_nn": 50,
+    "max_m": 1,
+    "seed": 1234,
+    "add_umap": false,
+    "scatter_size": 12.0
+  },
+  "python": "3.11.16",
+  "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+  "upstream_commit": "9278996c39e376277d57ef95278000447ba6c57c",
+  "notebook": "https://github.com/prabhakarlab/Banksy_py/blob/9278996c39e376277d57ef95278000447ba6c57c/starmap_analysis.ipynb",
+  "input_git_blob_sha1": "fbedd8b13083e7b24531c2e374d53033e6f50632",
+  "annotations_git_blob_sha1": "524893f71e77633af31bf333520f98183ec50814",
+  "historical_notebook": {
+    "clusters": 7,
+    "ari_rounded": 0.71,
+    "refined_ari_rounded": 0.72
+  },
+  "versions": {
+    "pybanksy": "1.3.4",
+    "scanpy": "1.11.5",
+    "anndata": "0.12.19",
+    "numpy": "1.26.4",
+    "scipy": "1.17.1",
+    "scikit-learn": "1.9.1",
+    "python-igraph": "1.0.0",
+    "leidenalg": "0.12.0"
+  },
+  "equivalent_partitions": true
+}

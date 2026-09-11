@@ -1,0 +1,16 @@
+[data]
+input = "data/starmap/starmap_BY3_1k.h5ad"
+output = "results/starmap"
+sample_name = "starmap_BY3_1k"
+spatial_key = "spatial"
+
+[parameters]
+lambdas = [0.2]
+resolutions = [0.3]
+pca_dims = [20]
+num_neighbours = 15
+num_nn = 50
+max_m = 1
+seed = 1234
+add_umap = false
+scatter_size = 4.0
