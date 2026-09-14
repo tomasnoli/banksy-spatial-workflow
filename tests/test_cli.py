@@ -26,11 +26,16 @@ def test_check_reports_missing_input(tmp_path):
         main(["check", "--config", str(config)])
 
 
-def test_check_accepts_existing_input(tmp_path, capsys):
+def test_check_lists_samples(tmp_path, capsys):
+    import anndata as ad
+    import numpy as np
+
     input_path = tmp_path / "input.h5ad"
-    input_path.write_bytes(b"")
+    ad.AnnData(X=np.zeros((2, 1), dtype="float32")).write_h5ad(input_path)
     main(["check", "--config", str(write_config(tmp_path, input_path))])
-    assert "Configuration valid" in capsys.readouterr().out
+    out = capsys.readouterr().out
+    assert "Configuration valid" in out
+    assert "demo: 2 observations" in out
 
 
 def test_run_accepts_standard_lambda_option():

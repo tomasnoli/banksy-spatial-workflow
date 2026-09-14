@@ -3,7 +3,12 @@ import numpy as np
 import pytest
 
 from banksy_workflow.config import DataConfig, ParameterConfig, WorkflowConfig
-from banksy_workflow.core import _prepare_sample, output_state, selected_samples
+from banksy_workflow.core import (
+    _prepare_sample,
+    output_state,
+    sample_sizes,
+    selected_samples,
+)
 
 
 def make_config(tmp_path, **data_fields):
@@ -101,6 +106,16 @@ def test_missing_sample_column_is_reported(tmp_path):
     config = make_config(tmp_path, sample_column="batch")
     with pytest.raises(ValueError, match="Missing obs column: batch"):
         selected_samples(make_adata(), config, requested=None)
+
+
+def test_sample_sizes_follow_selection(tmp_path):
+    config = make_config(tmp_path, sample_column="sample_id", samples=("s2", "s1"))
+    assert sample_sizes(make_adata(), config) == {"s2": 1, "s1": 2}
+
+
+def test_sample_sizes_single_sample_mode(tmp_path):
+    config = make_config(tmp_path, sample_name="only")
+    assert sample_sizes(make_adata(), config) == {"only": 3}
 
 
 # --- _prepare_sample --------------------------------------------------------

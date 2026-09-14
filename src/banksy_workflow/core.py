@@ -34,6 +34,15 @@ def selected_samples(adata, config: WorkflowConfig, requested: list[str] | None)
     return chosen
 
 
+def sample_sizes(adata, config: WorkflowConfig) -> dict[str, int]:
+    """Return the number of observations per selected sample."""
+    samples = selected_samples(adata, config, requested=None)
+    if config.data.sample_column is None:
+        return {samples[0]: int(adata.n_obs)}
+    counts = adata.obs[config.data.sample_column].astype(str).value_counts()
+    return {sample: int(counts[sample]) for sample in samples}
+
+
 def output_state(lam_dir: Path, force: bool) -> str:
     """Classify a sample/lambda output directory as "done", "partial" or "new".
 

@@ -38,6 +38,14 @@ def main(argv: list[str] | None = None) -> None:
         print(f"Configuration valid: {config.source}")
         print(f"Input: {config.data.input}")
         print(f"Output: {config.data.output}")
+        import anndata as ad
+
+        from .core import sample_sizes
+
+        sizes = sample_sizes(ad.read_h5ad(config.data.input, backed="r"), config)
+        print(f"Samples ({len(sizes)}):")
+        for sample, n_obs in sizes.items():
+            print(f"  {sample}: {n_obs} observations")
         return
 
     if args.lambda_index is not None:

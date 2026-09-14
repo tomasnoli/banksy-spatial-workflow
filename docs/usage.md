@@ -101,7 +101,8 @@ The current output writer does not export a UMAP plot. Leave `add_umap` set to
 
 ## 4. Check and run
 
-Check syntax and paths:
+Check syntax and paths, and list the samples that will be processed with
+their sizes:
 
 ```bash
 banksy-workflow check --config config/xenium_local.toml
