@@ -2,6 +2,8 @@
 
 [![CI](https://github.com/tomasnoli/banksy-spatial-workflow/actions/workflows/ci.yml/badge.svg)](https://github.com/tomasnoli/banksy-spatial-workflow/actions/workflows/ci.yml)
 
+## Overview
+
 A workflow for BANKSY spatial domain analysis in Xenium and Visium datasets.
 It reads analysis settings from a configuration file and runs locally or on a
 SLURM cluster. Results are saved separately for each sample and lambda value
