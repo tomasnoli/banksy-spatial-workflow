@@ -8,11 +8,14 @@ SLURM cluster. Results are saved separately for each sample and lambda value
 to avoid overwriting previous outputs.
 
 I developed this workflow for a spatial domain segmentation project. I needed
-a way to change parameters, repeat analyses, and run the same configuration
-on my workstation and on the HPC cluster.
+a reliable pipeline to change parameters, repeat analyses on many samples, and run the same configuration on my workstation and on the HPC cluster.
 
-Important Note! BANKSY performs the spatial clustering. This repository adds configuration
-files, local and HPC launchers, output handling, and tests.
+Important Note! BANKSY performs the spatial clustering. This repo adds:
+
+- configuration files
+- local and HPC launchers
+- output handling
+- tests.
 
 pyBANKSY repository: [here](https://github.com/prabhakarlab/Banksy_py)
 
@@ -77,7 +80,7 @@ results, and comparison with the original BANKSY notebook.
 
 ## Run
 
-Use the configuration template: edit the input paths, sample selection,
+Edit the configuration template: add the input paths, sample names,
 and BANKSY parameters
 
 ```bash
@@ -101,7 +104,7 @@ explain how the workflow was developed and why SLURM jobs are split by lambda.
 
 ## Output
 
-Each sample and lambda combination has its own directory:
+Each sample and lambda combination has its own directory, structured as such:
 
 ```text
 output/
