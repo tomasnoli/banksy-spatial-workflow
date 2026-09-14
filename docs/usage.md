@@ -12,6 +12,9 @@ conda activate banksy-spatial-workflow
 make test
 ```
 
+`environment.yml` is read the same way by conda, mamba and micromamba; with
+micromamba the command is `micromamba create -f environment.yml`.
+
 Run commands from the repository root when a configuration contains relative
 paths. Existing environments can be updated with:
 
