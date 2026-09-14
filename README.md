@@ -14,7 +14,7 @@ on my workstation and on the HPC cluster.
 Important Note! BANKSY performs the spatial clustering. This repository adds configuration
 files, local and HPC launchers, output handling, and tests.
 
-pyBANKSY repository: * [pyBANKSY](https://github.com/prabhakarlab/Banksy_py)
+pyBANKSY repository * [here](https://github.com/prabhakarlab/Banksy_py)
 
 ## Installation
 
