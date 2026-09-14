@@ -6,7 +6,6 @@ import json
 import platform
 import random
 from dataclasses import asdict, replace
-from importlib.metadata import version
 from pathlib import Path
 from tempfile import mkdtemp
 
@@ -32,21 +31,11 @@ from download_starmap_reference import (
 )
 
 from banksy_workflow.config import domain_key, lambda_tag, load_config
-from banksy_workflow.core import run_workflow
+from banksy_workflow.core import package_versions, run_workflow
 from banksy_workflow.plotting import save_spatial_domains
 from banksy_workflow.reference import align_annotations, score_partitions
 
 CONFIG = Path("config/starmap_reference.toml")
-VERSIONED_PACKAGES = (
-    "pybanksy",
-    "scanpy",
-    "anndata",
-    "numpy",
-    "scipy",
-    "scikit-learn",
-    "python-igraph",
-    "leidenalg",
-)
 
 
 def prepare_input(config):
@@ -191,7 +180,7 @@ def main():
             "ari_rounded": 0.71,
             "refined_ari_rounded": 0.72,
         },
-        "versions": {package: version(package) for package in VERSIONED_PACKAGES},
+        "versions": package_versions(),
         "equivalent_partitions": bool(
             np.isclose(scores["workflow_vs_upstream_ari"], 1.0, rtol=0, atol=1e-12)
         ),

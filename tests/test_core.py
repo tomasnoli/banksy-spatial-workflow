@@ -5,7 +5,9 @@ import pytest
 from banksy_workflow.config import DataConfig, ParameterConfig, WorkflowConfig
 from banksy_workflow.core import (
     _prepare_sample,
+    _serializable_config,
     output_state,
+    package_versions,
     sample_sizes,
     selected_samples,
 )
@@ -116,6 +118,23 @@ def test_sample_sizes_follow_selection(tmp_path):
 def test_sample_sizes_single_sample_mode(tmp_path):
     config = make_config(tmp_path, sample_name="only")
     assert sample_sizes(make_adata(), config) == {"only": 3}
+
+
+# --- provenance -------------------------------------------------------------
+
+
+def test_package_versions_report_missing_packages_as_none():
+    versions = package_versions(("numpy", "no-such-package-xyz"))
+    assert versions["numpy"]
+    assert versions["no-such-package-xyz"] is None
+
+
+def test_run_parameters_include_versions_and_selection(tmp_path):
+    config = make_config(tmp_path, sample_name="only")
+    payload = _serializable_config(config, "only", 0.8)
+    assert payload["selection"] == {"sample": "only", "lambda": 0.8}
+    assert payload["versions"]["numpy"]
+    assert "source" not in payload
 
 
 # --- _prepare_sample --------------------------------------------------------

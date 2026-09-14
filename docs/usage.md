@@ -165,7 +165,8 @@ sample/lam0.8/
 - `domain_labels.tsv.gz` collects all domain columns.
 - Each file under `tables/` contains observation ID and domain for one
   resolution.
-- `run_parameters.json` records the effective parameters and selection.
+- `run_parameters.json` records the effective parameters, the selection and
+  the versions of the packages that produced the result.
 - `source_config.toml` preserves the source configuration.
 - `DONE.json` confirms that the resolution grid completed.
 

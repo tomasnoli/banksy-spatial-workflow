@@ -6,6 +6,7 @@ import random
 import shutil
 from dataclasses import asdict
 from datetime import UTC, datetime
+from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 
 from .config import (
@@ -16,6 +17,29 @@ from .config import (
     value_tag,
 )
 from .plotting import save_spatial_domains
+
+VERSIONED_PACKAGES = (
+    "banksy-spatial-workflow",
+    "pybanksy",
+    "scanpy",
+    "anndata",
+    "numpy",
+    "scipy",
+    "scikit-learn",
+    "python-igraph",
+    "leidenalg",
+)
+
+
+def package_versions(packages=VERSIONED_PACKAGES) -> dict[str, str | None]:
+    """Installed version of each package, or None when it is not installed."""
+    versions: dict[str, str | None] = {}
+    for name in packages:
+        try:
+            versions[name] = version(name)
+        except PackageNotFoundError:
+            versions[name] = None
+    return versions
 
 
 def selected_samples(adata, config: WorkflowConfig, requested: list[str] | None):
@@ -110,6 +134,7 @@ def _serializable_config(config: WorkflowConfig, sample: str, lam: float) -> dic
     payload["data"]["input"] = str(config.data.input)
     payload["data"]["output"] = str(config.data.output)
     payload["selection"] = {"sample": sample, "lambda": lam}
+    payload["versions"] = package_versions()
     return payload
 
 
