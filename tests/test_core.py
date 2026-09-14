@@ -47,11 +47,18 @@ def test_empty_directory_is_new(tmp_path):
     assert output_state(tmp_path / "lam0.8", force=False) == "new"
 
 
-def test_done_marker_means_done(tmp_path):
+def test_done_marker_covering_the_grid_means_done(tmp_path):
     lam_dir = tmp_path / "lam0.8"
     lam_dir.mkdir()
-    (lam_dir / "DONE.json").write_text("{}")
-    assert output_state(lam_dir, force=False) == "done"
+    (lam_dir / "DONE.json").write_text('{"resolutions": [0.1, 0.2]}')
+    assert output_state(lam_dir, force=False, resolutions=(0.2, 0.1)) == "done"
+
+
+def test_done_marker_missing_a_resolution_is_outdated(tmp_path):
+    lam_dir = tmp_path / "lam0.8"
+    lam_dir.mkdir()
+    (lam_dir / "DONE.json").write_text('{"resolutions": [0.2]}')
+    assert output_state(lam_dir, force=False, resolutions=(0.2, 0.3)) == "outdated"
 
 
 def test_files_without_done_marker_are_partial(tmp_path):

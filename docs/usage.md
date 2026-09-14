@@ -135,7 +135,9 @@ banksy-workflow run \
 
 The workflow treats each sample-lambda directory as one execution unit.
 
-- A directory containing `DONE.json` is skipped.
+- A directory containing `DONE.json` is skipped when it covers every
+  configured resolution. If the configuration now requests resolutions that
+  the checkpoint does not record, the run stops and asks for `--force`.
 - A non-empty directory without `DONE.json` is treated as a partial result and
   stops the run.
 - `--force` removes and recomputes selected result directories.

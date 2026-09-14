@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import gc
 import json
+import math
 import random
 import shutil
 from dataclasses import asdict
@@ -67,18 +68,25 @@ def sample_sizes(adata, config: WorkflowConfig) -> dict[str, int]:
     return {sample: int(counts[sample]) for sample in samples}
 
 
-def output_state(lam_dir: Path, force: bool) -> str:
-    """Classify a sample/lambda output directory as "done", "partial" or "new".
+def output_state(lam_dir: Path, force: bool, resolutions=()) -> str:
+    """Classify a sample/lambda output directory.
 
-    A directory containing DONE.json holds a complete resolution grid and is
-    reused. A non-empty directory without DONE.json is a partial result and is
-    never reused silently. With ``force`` every directory counts as new and is
-    replaced once the new results are ready.
+    "done": DONE.json exists and covers every configured resolution.
+    "outdated": DONE.json exists but was written for a different resolution
+    grid, so reusing it would silently miss resolutions.
+    "partial": files exist without DONE.json, typically an interrupted run.
+    "new": nothing to reuse. With ``force`` every directory counts as new and
+    is replaced once the new results are ready.
     """
     if force or not lam_dir.exists():
         return "new"
-    if (lam_dir / "DONE.json").exists():
-        return "done"
+    done = lam_dir / "DONE.json"
+    if done.exists():
+        recorded = json.loads(done.read_text(encoding="utf-8")).get("resolutions", [])
+        covered = all(
+            any(math.isclose(value, item) for item in recorded) for value in resolutions
+        )
+        return "done" if covered else "outdated"
     if any(lam_dir.iterdir()):
         return "partial"
     return "new"
@@ -166,9 +174,14 @@ def run_workflow(
         active_lambdas = []
         for lam in lambdas:
             lam_dir = config.data.output / sample / lambda_tag(lam)
-            state = output_state(lam_dir, force)
+            state = output_state(lam_dir, force, config.parameters.resolutions)
             if state == "done":
                 print(f"Skipping {sample}, lambda={value_tag(lam)} (DONE.json found)")
+            elif state == "outdated":
+                raise FileExistsError(
+                    f"{lam_dir} was completed with a different resolution grid; "
+                    "rerun with --force to recompute it"
+                )
             elif state == "partial":
                 raise FileExistsError(
                     f"Partial output exists at {lam_dir}; inspect it and rerun with "
