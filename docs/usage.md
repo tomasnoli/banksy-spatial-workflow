@@ -35,6 +35,30 @@ The first two coordinate columns are used as X and Y.
 This package does not import raw Xenium or Space Ranger outputs, normalize
 counts, select highly variable genes or apply batch correction.
 
+Annotated objects often keep the representation intended for BANKSY in a
+layer while `X` holds scaled values. Build a prepared input from that layer
+without loading the whole file:
+
+```python
+import anndata as ad
+import h5py
+import numpy as np
+from anndata.io import read_elem
+
+with h5py.File("annotated.h5ad") as f:
+    X = read_elem(f["layers/normalised"])
+    obs = read_elem(f["obs"])[["sample_id"]]
+    var = read_elem(f["var"])[[]]
+    spatial = read_elem(f["obsm/spatial"])
+
+prepared = ad.AnnData(X=X, obs=obs, var=var)
+prepared.obsm["spatial"] = np.asarray(spatial)
+prepared.write_h5ad("prepared_input.h5ad")
+```
+
+Keeping only the columns the workflow needs makes the input smaller and
+faster to load; the workflow copies `obs` into every result file.
+
 ## 3. Configure an analysis
 
 Start from one of the templates:
