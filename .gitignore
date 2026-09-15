@@ -10,11 +10,4 @@ logs/
 config/*_local.toml
 config/*_helix.toml
 *.h5ad
-*.loom
 .DS_Store
-.ipynb_checkpoints/
-.Rhistory
-*.h5
-*.zarr
-*.parquet
-.coverage
