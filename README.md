@@ -121,10 +121,10 @@ Domain columns are named:
 banksy_domain_lam{lambda}_res{resolution}
 ```
 
-`DONE.json` is written after all configured resolutions for that sample
-and lambda have completed successfully. If there's already a `DONE.json`
-inside the output directory, the run for that specific sample will be 
-skipped entirely. To avoid this, you can either delete the .json or use `--force`:
+```markdown
+`DONE.json` marks a finished sample-lambda directory. Finished directories are
+skipped; directories that are incomplete or were computed with different
+resolutions stop the run. Use `--force` to delete and recompute them:
 
 ```bash
 banksy-workflow run --force --config config/xenium_local.toml
