@@ -120,7 +120,6 @@ Domain columns are named:
 banksy_domain_lam{lambda}_res{resolution}
 ```
 
-```markdown
 `DONE.json` marks a finished sample-lambda directory. Finished directories are
 skipped; directories that are incomplete or were computed with different
 resolutions stop the run. Use `--force` to delete and recompute them:
