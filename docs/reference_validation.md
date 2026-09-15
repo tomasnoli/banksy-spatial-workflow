@@ -34,11 +34,7 @@ expression matrix is already preprocessed and is not normalized again.
 | `max_m` | 1 |
 | Seed | 1234 |
 
-These values reproduce the first analysis in the pinned STARmap notebook. The
-annotation-based cell selection is specific to this validation and is not a
-quality-control recommendation for Xenium or Visium datasets.
-
-## Procedure
+## How to
 
 Run:
 
@@ -80,7 +76,7 @@ results/starmap_reference/run-*/
 Refined labels are retained separately and never replace the unrefined
 partition.
 
-## Validated environment
+## Environment summary
 
 The values below were produced by the `starmap-reference` GitHub Actions job
 on 2026-09-11 (Python 3.11.16, Linux x86_64). The complete report is kept in
@@ -103,18 +99,3 @@ Leiden partitions depend on the `leidenalg` and `python-igraph` versions, so
 a different environment may reproduce the workflow-versus-upstream agreement
 (`ARI = 1`) while giving different absolute scores against the manual
 annotations.
-
-## Interpretation
-
-In this environment the validation produced:
-
-- workflow vs upstream ARI: 1.0;
-- six clusters from both entry points;
-- workflow vs manual ARI: 0.7196026;
-- refined upstream vs manual ARI: 0.7254444;
-- 11 observations changed by refinement.
-
-The notebook's stored output reports seven clusters and rounded ARI values of
-0.71 before refinement and 0.72 after refinement. Those values were produced
-in the authors' historical environment. The validation reports differences
-instead of changing analysis parameters to force agreement with stored output.
