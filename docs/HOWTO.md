@@ -1,4 +1,4 @@
-# Usage guide
+# How to use the workflow
 
 ## 1. Install the workflow
 
@@ -228,8 +228,13 @@ hpc/submit_banksy.sh config/xenium_local.toml 2
 
 The final argument limits the number of lambda tasks running concurrently. The
 launcher creates one SLURM array task per configured lambda; each task processes
-its selected samples sequentially. The reasons for parallelising over lambda
-rather than over samples are discussed in the [design notes](design.md).
+its selected samples sequentially.
+
+Tasks are split by lambda rather than by sample because pyBANKSY derives the
+matrices for every lambda from the same spatial graph, so one task per lambda
+keeps memory bounded and maps directly onto `--lambda-index`. Results are
+identified by lambda and resolution only: the configuration accepts a single
+`pca_dims` value, so no other parameter varies inside a run.
 
 Absolute input and output paths are recommended on the cluster. Job logs are
 written under `logs/` and can be monitored with:

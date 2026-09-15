@@ -94,9 +94,8 @@ hpc/submit_banksy.sh config/xenium_local.toml 2
 The launcher reads the lambda values from the configuration file and creates
 the SLURM array. You do not need to set them again in the shell script.
 
-The [usage guide](docs/usage.md) covers input requirements, configuration,
-sample selection, outputs, and HPC setup. The [design notes](docs/design.md)
-explain how the workflow was developed and why SLURM jobs are split by lambda.
+The [how-to guide](docs/HOWTO.md) covers input requirements, configuration,
+sample selection, outputs, and HPC setup.
 
 ## Output
 
