@@ -1,6 +1,6 @@
-# How to use the workflow
+# How to use
 
-## 1. Install the workflow
+## 1. Install
 
 Clone the repository, enter its root directory and create the environment:
 
@@ -12,8 +12,7 @@ conda activate banksy-spatial-workflow
 make test
 ```
 
-`environment.yml` is read the same way by conda, mamba and micromamba; with
-micromamba the command is `micromamba create -f environment.yml`.
+make sure to use the correct syntax if you use other package managers.
 
 Run commands from the repository root when a configuration contains relative
 paths. Existing environments can be updated with:
@@ -22,9 +21,9 @@ paths. Existing environments can be updated with:
 conda env update -f environment.yml --prune
 ```
 
-## 2. Prepare the AnnData input
+## 2. Prepare the AnnData
 
-The workflow expects a prepared `.h5ad` file with:
+The script expects a prepared `.h5ad` file with:
 
 - unique observation names;
 - the expression representation intended for BANKSY in `X`;
@@ -34,9 +33,6 @@ The workflow expects a prepared `.h5ad` file with:
 Coordinates are read first from `obsm[spatial_key]`. If that key is absent,
 the workflow falls back to the configured `x_column` and `y_column` in `obs`.
 The first two coordinate columns are used as X and Y.
-
-This package does not import raw Xenium or Space Ranger outputs, normalize
-counts, select highly variable genes or apply batch correction.
 
 Annotated objects often keep the representation intended for BANKSY in a
 layer while `X` holds scaled values. Build a prepared input from that layer
@@ -62,7 +58,7 @@ prepared.write_h5ad("prepared_input.h5ad")
 Keeping only the columns the workflow needs makes the input smaller and
 faster to load; the workflow copies `obs` into every result file.
 
-## 3. Configure an analysis
+## 3. Setup the config files
 
 Start from one of the templates:
 
@@ -70,10 +66,11 @@ Start from one of the templates:
 cp config/xenium_template.toml config/xenium_local.toml
 cp config/visium_template.toml config/visium_local.toml
 ```
+The `[data]` section describes the input in one of two ways: a single sample
+(`sample_name`) or several samples identified by an `obs` column
+(`sample_column`). Set one of the two, not both.
 
-Use exactly one sample mode.
-
-### One sample per input file
+### One sample config
 
 ```toml
 [data]
@@ -83,7 +80,7 @@ sample_name = "sample_01"
 spatial_key = "spatial"
 ```
 
-### Multiple samples in one input file
+### Multiple samples config
 
 ```toml
 [data]
@@ -120,11 +117,8 @@ scatter_size = 4.0
 | `num_nn` | Neighbours in the clustering graph |
 | `max_m` | Highest azimuthal transform order |
 | `seed` | Python, NumPy and Leiden random seed |
-| `add_umap` | Whether BANKSY computes a UMAP embedding |
+| `add_umap` | Whether BANKSY produce a UMAP |
 | `scatter_size` | Point size in spatial plots |
-
-The current output writer does not export a UMAP plot. Leave `add_umap` set to
-`false` unless the embedding is needed for custom development.
 
 ## 4. Check and run
 
@@ -141,7 +135,7 @@ Run the complete configured grid:
 banksy-workflow run --config config/xenium_local.toml
 ```
 
-Select one or more samples at the command line:
+You can select one or more samples at the command line:
 
 ```bash
 banksy-workflow run \
@@ -150,7 +144,7 @@ banksy-workflow run \
   --sample sample_02
 ```
 
-Select one or more configured lambda values:
+You can also select one or more configured lambda values:
 
 ```bash
 banksy-workflow run \
@@ -160,22 +154,24 @@ banksy-workflow run \
 
 ## 5. Resume or replace results
 
-The workflow treats each sample-lambda directory as one execution unit.
+In order to avoid overwriting completed runs, each directory is treated as a single unit.
+A `DONE.json` is produced for each sample directory:
 
-- A directory containing `DONE.json` is skipped when it covers every
-  configured resolution. If the configuration now requests resolutions that
-  the checkpoint does not record, the run stops and asks for `--force`.
+- If a directory contains `DONE.json` is skipped when it covers every
+  configured resolution.
 - A non-empty directory without `DONE.json` is treated as a partial result and
   stops the run.
-- `--force` removes and recomputes selected result directories.
 
+ Regardless of the .json file, you can still force the run with `--force` :
+ 
 ```bash
 banksy-workflow run --config config/xenium_local.toml --force
 ```
 
-Review the target paths before using `--force`.
+This will delete output from previous runs; review 
+the specified paths before using `--force`.
 
-## 6. Read the outputs
+## 6. Output
 
 Each sample-lambda directory contains:
 
@@ -197,52 +193,23 @@ sample/lam0.8/
 - `run_parameters.json` records the effective parameters, the selection and
   the versions of the packages that produced the result.
 - `source_config.toml` preserves the source configuration.
-- `DONE.json` confirms that the resolution grid completed.
+- `DONE.json` confirms that the resolution grid has been completed.
 
-Load a result with Scanpy:
-
-```python
-import scanpy as sc
-
-adata = sc.read_h5ad(
-    "/path/to/banksy_results/sample_01/lam0.8/sample_01_lam0.8_domains.h5ad"
-)
-domain_key = "banksy_domain_lam0.8_res0.2"
-print(adata.obs[domain_key].value_counts())
-```
-
-Cluster numbers are arbitrary identifiers. Compare partitions by cell ID and
-a label-invariant measure such as adjusted Rand index rather than by matching
-the numeric labels directly.
-
-## 7. Run on Helix
+## 7. HPC run
 
 Create the environment once on the login node and activate it before
 submission:
 
 ```bash
-module load devel/miniforge
+module load *module name*
 conda activate banksy-spatial-workflow
 hpc/submit_banksy.sh config/xenium_local.toml 2
 ```
 
 The final argument limits the number of lambda tasks running concurrently. The
 launcher creates one SLURM array task per configured lambda; each task processes
-its selected samples sequentially.
+its selected samples sequentially. Absolute input and output paths are recommended on the cluster. 
+Job logs are written under `logs/` .
 
-Tasks are split by lambda rather than by sample because pyBANKSY derives the
-matrices for every lambda from the same spatial graph, so one task per lambda
-keeps memory bounded and maps directly onto `--lambda-index`. Results are
-identified by lambda and resolution only: the configuration accepts a single
-`pca_dims` value, so no other parameter varies inside a run.
-
-Absolute input and output paths are recommended on the cluster. Job logs are
-written under `logs/` and can be monitored with:
-
-```bash
-squeue -u "$USER"
-tail -f logs/banksy_JOBID_TASKID.out
-```
-
-The supplied job requests 16 CPUs, 128 GB RAM and 12 hours. Adjust these values
+The current setting requests 16 CPUs, 128 GB RAM and 12 hours. You can change these values
 in `hpc/banksy_array.slurm` according to the dataset and cluster policy.
