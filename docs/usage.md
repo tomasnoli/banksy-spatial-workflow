@@ -223,7 +223,7 @@ submission:
 ```bash
 module load devel/miniforge
 conda activate banksy-spatial-workflow
-hpc/helix/submit_banksy.sh config/xenium_local.toml 2
+hpc/submit_banksy.sh config/xenium_local.toml 2
 ```
 
 The final argument limits the number of lambda tasks running concurrently. The
@@ -240,4 +240,4 @@ tail -f logs/banksy_JOBID_TASKID.out
 ```
 
 The supplied job requests 16 CPUs, 128 GB RAM and 12 hours. Adjust these values
-in `hpc/helix/banksy_array.slurm` according to the dataset and cluster policy.
+in `hpc/banksy_array.slurm` according to the dataset and cluster policy.

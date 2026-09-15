@@ -88,7 +88,7 @@ To submit the same configuration to SLURM, with at most two lambda jobs
 running at once:
 
 ```bash
-hpc/helix/submit_banksy.sh config/xenium_local.toml 2
+hpc/submit_banksy.sh config/xenium_local.toml 2
 ```
 
 The launcher reads the lambda values from the configuration file and creates

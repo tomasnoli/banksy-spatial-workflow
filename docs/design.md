@@ -29,7 +29,7 @@ deserves its own review.
 
 ## Unit of parallelism on SLURM
 
-`hpc/helix/submit_banksy.sh` creates one array task per configured lambda.
+`hpc/submit_banksy.sh` creates one array task per configured lambda.
 Each task loads the input once and processes its selected samples in sequence.
 Locally, `run_workflow` computes every configured lambda in a single pass,
 because pyBANKSY derives the neighbour-augmented matrices for all lambdas from

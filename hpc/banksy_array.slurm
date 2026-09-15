@@ -11,7 +11,7 @@
 
 set -euo pipefail
 
-CONFIG="${BANKSY_CONFIG:?Set BANKSY_CONFIG or submit through hpc/helix/submit_banksy.sh}"
+CONFIG="${BANKSY_CONFIG:?Set BANKSY_CONFIG or submit through hpc/submit_banksy.sh}"
 
 export OMP_NUM_THREADS="$SLURM_CPUS_PER_TASK"
 export MKL_NUM_THREADS="$SLURM_CPUS_PER_TASK"

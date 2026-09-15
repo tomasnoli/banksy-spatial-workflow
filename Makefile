@@ -3,7 +3,7 @@
 check:
 	python -m ruff check .
 	python -m ruff format --check .
-	bash -n hpc/helix/banksy_array.slurm hpc/helix/submit_banksy.sh
+	bash -n hpc/banksy_array.slurm hpc/submit_banksy.sh
 
 test: check
 	python -m pytest -q

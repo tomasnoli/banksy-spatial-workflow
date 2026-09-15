@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-CONFIG="${1:?Usage: hpc/helix/submit_banksy.sh CONFIG [MAX_CONCURRENT]}"
+CONFIG="${1:?Usage: hpc/submit_banksy.sh CONFIG [MAX_CONCURRENT]}"
 MAX_CONCURRENT="${2:-2}"
 
 LAMBDA_COUNT="$(python -c '
@@ -21,4 +21,4 @@ LAST_INDEX="$((LAMBDA_COUNT - 1))"
 sbatch \
     --array="0-${LAST_INDEX}%${MAX_CONCURRENT}" \
     --export="ALL,BANKSY_CONFIG=$CONFIG" \
-    hpc/helix/banksy_array.slurm
+    hpc/banksy_array.slurm
