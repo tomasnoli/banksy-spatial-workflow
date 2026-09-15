@@ -85,8 +85,8 @@ partition.
 The values below were produced by the `starmap-reference` GitHub Actions job
 on 2026-09-11 (Python 3.11.16, Linux x86_64). The complete report is kept in
 [`reference_validation_2026-09-11.json`](reference_validation_2026-09-11.json).
-The `uv.lock` file at the repository root pins the same package set;
-`uv sync --extra dev` reproduces it.
+Every workflow result also records the versions of these packages in its
+`run_parameters.json`.
 
 | Package | Version |
 |---|---:|

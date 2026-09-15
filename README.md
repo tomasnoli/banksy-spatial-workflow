@@ -32,14 +32,8 @@ make test
 ```
 
 The package installs the `banksy-workflow` command and uses
-`pybanksy==1.3.4`.
-
-To recreate the environment used for reference validation, install the
-versions recorded in `uv.lock`:
-
-```bash
-uv sync --extra dev
-```
+`pybanksy==1.3.4`. The package versions used for the reference validation
+are listed in [`docs/reference_validation.md`](docs/reference_validation.md).
 
 ## Test
 
