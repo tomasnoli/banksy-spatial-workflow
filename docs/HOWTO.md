@@ -60,11 +60,12 @@ faster to load; the workflow copies `obs` into every result file.
 
 ## 3. Setup the config files
 
-Start from one of the templates:
+You can start by making a copy of the template:
 
 ```bash
-cp config/xenium_template.toml config/xenium_local.toml
-cp config/visium_template.toml config/visium_local.toml
+
+cp config/template.toml config/run_settings.toml
+
 ```
 The `[data]` section describes the input in one of two ways: a single sample
 (`sample_name`) or several samples identified by an `obs` column
@@ -93,31 +94,18 @@ spatial_key = "spatial"
 
 Omit `samples` to process every value found in `sample_column`.
 
-### BANKSY parameters
-
-```toml
-[parameters]
-lambdas = [0.2, 0.8]
-resolutions = [0.1, 0.2, 0.3]
-pca_dims = [20]
-num_neighbours = 15
-num_nn = 50
-max_m = 1
-seed = 1234
-add_umap = false
-scatter_size = 4.0
-```
+### BANKSY settings
 
 | Field | Meaning |
 |---|---|
 | `lambdas` | Neighbourhood contribution values between 0 and 1 |
 | `resolutions` | Positive Leiden resolution values |
-| `pca_dims` | Number of principal components; exactly one value |
+| `pca_dims` | Number of principal components; provide exactly one value |
 | `num_neighbours` | Neighbours in the spatial graph |
 | `num_nn` | Neighbours in the clustering graph |
 | `max_m` | Highest azimuthal transform order |
-| `seed` | Python, NumPy and Leiden random seed |
-| `add_umap` | Whether BANKSY produce a UMAP |
+| `seed` | Random seed for Python, NumPy and Leiden |
+| `add_umap` | Whether it produce a UMAP, set to True or False |
 | `scatter_size` | Point size in spatial plots |
 
 ## 4. Check and run
@@ -126,20 +114,20 @@ Check syntax and paths, and list the samples that will be processed with
 their sizes:
 
 ```bash
-banksy-workflow check --config config/xenium_local.toml
+banksy-workflow check --config config/run_settings.toml
 ```
 
 Run the complete configured grid:
 
 ```bash
-banksy-workflow run --config config/xenium_local.toml
+banksy-workflow run --config config/run_settings.toml
 ```
 
 You can select one or more samples at the command line:
 
 ```bash
 banksy-workflow run \
-  --config config/xenium_local.toml \
+  --config config/run_settings.toml \
   --sample sample_01 \
   --sample sample_02
 ```
@@ -148,7 +136,7 @@ You can also select one or more configured lambda values:
 
 ```bash
 banksy-workflow run \
-  --config config/xenium_local.toml \
+  --config config/run_settings.toml \
   --lambda 0.8
 ```
 
@@ -165,7 +153,7 @@ A `DONE.json` is produced for each sample directory:
  Regardless of the .json file, you can still force the run with `--force` :
  
 ```bash
-banksy-workflow run --config config/xenium_local.toml --force
+banksy-workflow run --config config/run_settings.toml --force
 ```
 
 This will delete output from previous runs; review 
