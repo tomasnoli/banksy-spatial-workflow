@@ -1,12 +1,12 @@
 [data]
-input = "/path/to/visiumHD_008um_BANKSY_input_2000HVG.h5ad"
-output = "/path/to/banksy_output/visium"
+input = "/path/to/visium/input.h5ad"
+output = "/path/for/banksy_output/visium"
 sample_name = "sample_01"
 spatial_key = "spatial"
 
 [parameters]
-lambdas = [0.2, 0.8]
-resolutions = [0.1, 0.2, 0.3]
+lambdas = []
+resolutions = []
 pca_dims = [20]
 num_neighbours = 30
 num_nn = 50
