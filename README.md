@@ -76,19 +76,19 @@ results, and comparison with the original BANKSY notebook.
 
 ## Run
 
-Edit the configuration template: add the input paths, sample names,
+Copy and edit the configuration template: add the input paths, sample names,
 and BANKSY parameters
 
 ```bash
-banksy-workflow check --config config/xenium_local.toml
-banksy-workflow run --config config/xenium_local.toml
+banksy-workflow check --config config/run_samples.toml
+banksy-workflow run --config config/run_samples.toml
 ```
 
 To submit the same configuration to SLURM, with at most two lambda jobs
 running at once:
 
 ```bash
-hpc/submit_banksy.sh config/xenium_local.toml 2
+hpc/submit_banksy.sh config/hpc_run_samples.toml 2
 ```
 
 The launcher reads the lambda values from the configuration file and creates
@@ -125,7 +125,7 @@ skipped; directories that are incomplete or were computed with different
 resolutions stop the run. Use `--force` to delete and recompute them:
 
 ```bash
-banksy-workflow run --force --config config/xenium_local.toml
+banksy-workflow run --force --config config/run_samples.toml
 ```
 ## References
 
