@@ -1,0 +1,20 @@
+[data]
+input = "/path/to/prepared_input.h5ad"
+output = "/path/to/results"
+spatial_key = "spatial"        # obsm key with XY coordinates; otherwise x_column/y_column in obs
+
+# Use exactly one sample mode.
+sample_name = "sample_01"      # one sample per file
+# sample_column = "sample_id"  # several samples in one file
+# samples = ["S1", "S2"]       # subset of sample_column; omit to run all
+
+[parameters]
+lambdas = [0.2, 0.8]           # low: cell typing, high: domains
+resolutions = [0.2, 0.5]       # Leiden; raise to split small populations
+pca_dims = [20]                # one value only
+num_neighbours = 15            # spatial neighbours; scale to the structures of interest
+num_nn = 50                    # clustering graph neighbours
+max_m = 1                      # azimuthal order; 1 adds the gradient term
+seed = 1234
+add_umap = false
+scatter_size = 4.0             # plot point size; ~0.5 for very dense data

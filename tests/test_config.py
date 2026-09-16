@@ -74,5 +74,12 @@ def test_result_tags(value, expected):
     assert resolution_tag(value) == f"res{expected}"
 
 
+def test_template_is_a_valid_configuration():
+    template = Path(__file__).resolve().parent.parent / "config" / "template.toml"
+    config = load_config(template)
+    assert config.data.sample_name == "sample_01"
+    assert config.parameters.lambdas == (0.2, 0.8)
+
+
 def test_domain_key_uses_result_tags():
     assert domain_key(0.8, 0.2) == "banksy_domain_lam0.8_res0.2"

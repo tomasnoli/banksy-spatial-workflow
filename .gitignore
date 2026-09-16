@@ -7,7 +7,8 @@ __pycache__/
 data/
 results/
 logs/
-config/*_local.toml
-config/*_helix.toml
+config/*.toml
+!config/template.toml
+!config/starmap_*.toml
 *.h5ad
 .DS_Store
